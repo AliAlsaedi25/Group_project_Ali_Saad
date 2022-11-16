@@ -1,3 +1,7 @@
+"""
+Website using Flask to summarize text using an API
+"""
+
 from pickle import TRUE
 import random
 import re
