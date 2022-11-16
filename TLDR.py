@@ -19,9 +19,9 @@ import API
 load_dotenv() 
 
 app = Flask(__name__)
-'''
-app.secret_key = os.getenv('secret_key')
 
+app.secret_key = "apllegsfghurio" #os.getenv('secret_key')
+'''
 app.config[
     'SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -93,6 +93,9 @@ def signup():
 def handle_signup_submission():
     form_data = request.form
     global sign_username; sign_username = form_data['username']
+    if sign_username == "":
+        flash("enter a username")
+        return redirect(url_for('signup'))
     #auth_user = User(username = username)
     #db.session.add(auth_user)  
     #db.session.commit()
@@ -128,7 +131,8 @@ def your_summeries():
     return render_template(
         'your_summeries.html', 
         html_summary_title = summary_title, 
-        html_current_user = current_user    
+        html_current_user = current_user, 
+        html_summary = summary  
         )
 
 app.run()
