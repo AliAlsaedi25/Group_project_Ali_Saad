@@ -44,7 +44,7 @@ class User(UserMixin, db.Model):
         return f'{self.username}'
 
 #this databse will keep track of all the comments and be accessed later to display comments across sessions
-class Comments(db.Model):
+class Summeries(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(80),  nullable = True)
     summary_title = db.Column(db.String(100), nullable = True
@@ -61,6 +61,43 @@ def load_user(user_id):
 with app.app_context():
     db.create_all()
 '''
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/handle_login', methods = ['POST'])
+def handle_login_submission():
+    form_data = request.form
+    username = form_data['username']
+    if username == "":
+        flash("enter a username")
+        return redirect(url_for('login'))
+    #user = User.query.filter_by(username = username).first()
+    global current_user; current_user = username
+    
+    if current_user == sign_username:
+        #login_user (user)
+        return redirect(url_for('index'))
+    else:
+        flash ('please try again')
+        return redirect(url_for('login'))
+        
+
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
+
+#adding the user to the user database in this one 
+
+@app.route('/handle_signup',methods = ['POST'])
+def handle_signup_submission():
+    form_data = request.form
+    global sign_username; sign_username = form_data['username']
+    #auth_user = User(username = username)
+    #db.session.add(auth_user)  
+    #db.session.commit()
+    return redirect(url_for('login'))
+
 @app.route('/')
 def index():
     return render_template('main_page.html')
@@ -70,7 +107,7 @@ def summerize_text():
     form_data = request.form
     initial_text = form_data['initial_text']
     global summary_title; summary_title = form_data['summary_title']
-    global summary; summary = API.get_model_data(initial_text) #summary  = initial_text + " this will be summized"
+    global summary; summary = API.get_model_data(initial_text)
     return redirect(url_for('summary_maker'))
 
 
@@ -90,8 +127,8 @@ def view_summeries():
 def your_summeries():
     return render_template(
         'your_summeries.html', 
-        html_summary_title = summary_title 
-             
+        html_summary_title = summary_title, 
+        html_current_user = current_user    
         )
 
 app.run()

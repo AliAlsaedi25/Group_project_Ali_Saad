@@ -4,11 +4,13 @@
 		<link rel="stylesheet" href={{url_for('static', filename='style.css')}}/>
 	</head>
     <body>
-      <h1>Summarize Text Below</h1>
+      <h1>Summarize Text Below</h1><br>
+      <h3>To keep track of your summeries you will need to sign up</h3><br>
+      <h4><a href = "{{url_for('signup')}}">Sign up here!</a></h4><br>
       <form method = 'POST' action = "/summerize_text"> 
         <input type="text" id = "text" name = 'summary_title' placeholder="name your summary"/><br>
         <label for="text">article:</label><br>
-        <textarea id = "text" name = 'initial_text' placeholder="paste your text here" rows ="20" cols="500"></textarea><br>
+        <textarea id = "text" name = 'initial_text' placeholder="paste your text here" rows ="20" cols="100"></textarea><br>
         <input type="submit" value = "Submit"/>
       </form>
     </body>

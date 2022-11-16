@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href={{url_for('static', filename='style.css')}}/>
+	</head>
+    <body> 
+      <h2>Login with Username
+        <form method = 'POST' action = "/handle_login">
+          <input type="text" id = "user_data" name = 'username' placeholder="Enter your username..."/>
+          <input type="submit" value = "Submit"/>
+        </form>
+        </h2>
+        <h4><a href = "{{url_for('signup')}}">Sign up here!</a></h4>
+
+    </body>
+</html>
