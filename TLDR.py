@@ -64,6 +64,7 @@ def index():
 def summerize_text():
     form_data = request.form
     initial_text = form_data['initial_text']
+    global summary_title; summary_title = form_data['summary_title']
     global summary; summary  = initial_text + " this will be summized"
     return redirect(url_for('summary_maker'))
 
@@ -71,8 +72,9 @@ def summerize_text():
 @app.route('/summary')
 def summary_maker():
     #will return the summary of the initial text 
-    return render_template('summary_page.html', 
-    html_summary = summary
+    return render_template(
+        'summary_page.html', 
+        html_summary = summary
     )
 
 @app.route('/view_summeries', methods = ['POST'])
@@ -81,6 +83,10 @@ def view_summeries():
 
 @app.route('/your_summaries')
 def your_summeries():
-    return render_template('your_summeries.html')
+    return render_template(
+        'your_summeries.html', 
+        html_summary_title = summary_title 
+             
+        )
 
 app.run()

@@ -6,7 +6,8 @@
     <body>
       <h1>Summarize Text Below</h1>
       <form method = 'POST' action = "/summerize_text"> 
-        <label for="text">Text:</label><br>
+        <input type="text" id = "text" name = 'summary_title' placeholder="name your summary"/><br>
+        <label for="text">article:</label><br>
         <textarea id = "text" name = 'initial_text' placeholder="paste your text here" rows ="20" cols="500"></textarea><br>
         <input type="submit" value = "Submit"/>
       </form>
