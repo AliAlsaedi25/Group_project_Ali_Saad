@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href={{url_for('static', filename='style.css')}}/>
+	</head>
+    <body>
+      <h3>this is your summerized text</h3>
+      <h4>{{html_summary}}</h4>
+    </body>
+    <form method = 'POST' action = "/view_summeries"> 
+        <input type="submit" value = "view your summeires here"/><br>
+      </form>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href={{url_for('static', filename='style.css')}}/>
+	</head>
+    <body>
+      <h1>Summarize Text Below</h1>
+      <form method = 'POST' action = "/summerize_text"> 
+        <label for="text">Text:</label><br>
+        <textarea id = "text" name = 'initial_text' placeholder="paste your text here" rows ="20" cols="500"></textarea><br>
+        <input type="submit" value = "Submit"/>
+      </form>
+    </body>
+</html>
