@@ -15,6 +15,7 @@ from cgitb import html
 from flask import *
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import *
+import API
 load_dotenv() 
 
 app = Flask(__name__)
@@ -69,7 +70,7 @@ def summerize_text():
     form_data = request.form
     initial_text = form_data['initial_text']
     global summary_title; summary_title = form_data['summary_title']
-    global summary; summary  = initial_text + " this will be summized"
+    global summary; summary = API.get_model_data(initial_text) #summary  = initial_text + " this will be summized"
     return redirect(url_for('summary_maker'))
 
 
