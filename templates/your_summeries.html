@@ -4,9 +4,12 @@
 		<link rel="stylesheet" href={{url_for('static', filename='style.css')}}/>
 	</head>
     <body>
-        <h4>{{html_current_user}}</h4><br>
-        <h4>{{html_summary_title}}</h4><br>
-        <h4>{{html_summary}}</h4><br>
-        <h3>view your summeries here with jinja loop</h3>
+        <h4>Your Summaries </h4>
+        <div style="overflow-y:scroll;height:300px;">
+            {% for x in html_entries: %}
+              <h4>{{x.summary_title}}</h4>
+              <h4>{{x.summary}}</h4> 
+            {% endfor %}
+          </div>
     </body>
 </html>

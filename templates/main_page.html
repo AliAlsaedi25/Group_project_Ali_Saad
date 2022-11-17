@@ -5,8 +5,10 @@
 	</head>
     <body>
       <h1>Summarize Text Below</h1><br>
-      <h3>To keep track of your summeries you will need to sign up</h3><br>
+      <h3>To keep track of your summeries you will need to sign up</h3>
       <h4><a href = "{{url_for('signup')}}">Sign up here!</a></h4><br>
+      <h3>Already have an account with us?</h3>
+      <h4><a href = "{{url_for('login')}}">Login here!</a></h4><br>
       <form method = 'POST' action = "/summerize_text"> 
         <input type="text" id = "text" name = 'summary_title' placeholder="name your summary"/><br>
         <label for="text">article:</label><br>

@@ -16,12 +16,14 @@ from flask import *
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import *
 import API
-load_dotenv() 
+load_dotenv(find_dotenv())
+
+entries = ' '
 
 app = Flask(__name__)
 
-app.secret_key = "apllegsfghurio" #os.getenv('secret_key')
-'''
+app.secret_key = os.getenv('secret_key')
+
 app.config[
     'SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -33,7 +35,7 @@ lm = LoginManager()
 lm.login_view = 'auth.login'
 lm.init_app(app)
 
-this databse will keep track of all the users and will be used later for authentication
+#this databse will keep track of all the users and will be used later for authentication
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(80),  nullable = True)
@@ -47,7 +49,7 @@ class User(UserMixin, db.Model):
 class Summeries(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(80),  nullable = True)
-    summary_title = db.Column(db.String(100), nullable = True
+    summary_title = db.Column(db.String(100), nullable = True)
     summary = db.Column(db.String(1000000), nullable = True)
     
     def __str__(self):
@@ -60,7 +62,7 @@ def load_user(user_id):
 
 with app.app_context():
     db.create_all()
-'''
+
 @app.route('/login')
 def login():
     return render_template('login.html')
@@ -72,11 +74,11 @@ def handle_login_submission():
     if username == "":
         flash("enter a username")
         return redirect(url_for('login'))
-    #user = User.query.filter_by(username = username).first()
+    user = User.query.filter_by(username = username).first()
     global current_user; current_user = username
     
-    if current_user == sign_username:
-        #login_user (user)
+    if user:
+        login_user (user)
         return redirect(url_for('index'))
     else:
         flash ('please try again')
@@ -92,13 +94,13 @@ def signup():
 @app.route('/handle_signup',methods = ['POST'])
 def handle_signup_submission():
     form_data = request.form
-    global sign_username; sign_username = form_data['username']
-    if sign_username == "":
+    username = form_data['username']
+    if username == "":
         flash("enter a username")
         return redirect(url_for('signup'))
-    #auth_user = User(username = username)
-    #db.session.add(auth_user)  
-    #db.session.commit()
+    auth_user = User(username = username)
+    db.session.add(auth_user)  
+    db.session.commit()
     return redirect(url_for('login'))
 
 @app.route('/')
@@ -124,15 +126,23 @@ def summary_maker():
 
 @app.route('/view_summeries', methods = ['POST'])
 def view_summeries():
+    if current_user == '':
+        flash("must login")
+        return redirect(url_for('login'))
+    saved_summary = Summeries(summary = summary, summary_title = summary_title , username = current_user)
+    db.session.add(saved_summary)  
+    db.session.commit()   
     return redirect(url_for('your_summeries'))
 
 @app.route('/your_summaries')
 def your_summeries():
+    database_data = Summeries.query.filter_by(username = current_user).all()
+    global entries; entries= []
+    for x in database_data:
+        entries.append(x)
     return render_template(
         'your_summeries.html', 
-        html_summary_title = summary_title, 
-        html_current_user = current_user, 
-        html_summary = summary  
+        html_entries = entries  
         )
 
 app.run()
