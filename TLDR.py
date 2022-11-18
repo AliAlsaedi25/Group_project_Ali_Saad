@@ -71,12 +71,12 @@ def login():
 def handle_login_submission():
     form_data = request.form
     username = form_data['username']
-    if username == "":
+    if username == '':
         flash("enter a username")
         return redirect(url_for('login'))
+
     user = User.query.filter_by(username = username).first()
     global current_user; current_user = username
-    
     if user:
         login_user (user)
         return redirect(url_for('index'))
@@ -95,7 +95,7 @@ def signup():
 def handle_signup_submission():
     form_data = request.form
     username = form_data['username']
-    if username == "":
+    if username == '':
         flash("enter a username")
         return redirect(url_for('signup'))
     auth_user = User(username = username)
@@ -128,11 +128,14 @@ def summary_maker():
 def view_summeries():
     if current_user == '':
         flash("must login")
-        return redirect(url_for('login'))
+        return redirect(url_for('summary_maker'))
     saved_summary = Summeries(summary = summary, summary_title = summary_title , username = current_user)
     db.session.add(saved_summary)  
     db.session.commit()   
     return redirect(url_for('your_summeries'))
+
+    
+    
 
 @app.route('/your_summaries')
 def your_summeries():
