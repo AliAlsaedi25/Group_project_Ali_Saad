@@ -134,8 +134,6 @@ def view_summeries():
     db.session.commit()   
     return redirect(url_for('your_summeries'))
 
-    
-    
 
 @app.route('/your_summaries')
 def your_summeries():
@@ -148,4 +146,4 @@ def your_summeries():
         html_entries = entries  
         )
 
-app.run()
+app.run() 
