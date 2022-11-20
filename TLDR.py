@@ -50,7 +50,7 @@ class Summeries(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(80),  nullable = True)
     summary_title = db.Column(db.String(100), nullable = True)
-    summary = db.Column(db.String(1000000), nullable = True)
+    summary = db.Column(db.String(None), nullable = True)
     
     def __str__(self):
        return f'{self.username} {self.summary}'
@@ -59,6 +59,11 @@ class Summeries(db.Model):
 @lm.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+@lm.unauthorized_handler
+def unauth():
+    flash('INVALID URL OR LOG IN TO ACCESS THIS PAGE')
+    return redirect(url_for('index'))  
 
 with app.app_context():
     db.create_all()
@@ -124,11 +129,12 @@ def summary_maker():
         html_summary = summary
     )
 
+@login_required
 @app.route('/view_summeries', methods = ['POST'])
 def view_summeries():
-    if current_user == '':
-        flash("must login")
-        return redirect(url_for('summary_maker'))
+    if not (current_user).is_authenticated:
+        flash("Login to See Saved Summaries")
+        redirect(url_for("summary_maker"))
     saved_summary = Summeries(summary = summary, summary_title = summary_title , username = current_user)
     db.session.add(saved_summary)  
     db.session.commit()   
