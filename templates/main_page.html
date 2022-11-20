@@ -4,6 +4,28 @@
 		<link rel="stylesheet" href={{url_for('static', filename='style.css')}}/>
 	</head>
     <body>
+
+      <div class = "header_container">
+        <div class = "header_content">
+          <h1>Too Long Didnt Read Text Summarizer</h1>
+          <h3><a href = "{{url_for('login')}}">Login/Signup to Save Summaries Here!</a></h3>
+          <h3><a href = "{{url_for('your_summeries')}}">View Summaries here</a></h3>
+        </div>
+      </div>
+
+      <div class = "sum_container">
+        <div class ="sum_content">
+          <h2>Enter Text to Summarize Below</h2>
+          <form method = 'POST' action = "/summerize_text"> 
+            <input type="text" id = "text" name = 'summary_title' placeholder="name your summary"/><br>
+            <label for="text">article:</label><br>
+            <textarea id = "text" name = 'initial_text' placeholder="paste your text here" rows ="20" cols="100"></textarea><br>
+            <input type="submit" value = "Submit"/>
+          </form>
+        </div>
+      </div>
+
+      <!--
       <h1>Summarize Text Below</h1><br>
       <h3>To keep track of your summeries you will need to sign up</h3>
       <h4><a href = "{{url_for('signup')}}">Sign up here!</a></h4><br>
@@ -16,5 +38,6 @@
         <input type="submit" value = "Submit"/>
       </form>
       <h4><a href = "{{url_for('your_summeries')}}">view your summaries here</a></h4><br>
+      -->
     </body>
 </html>
