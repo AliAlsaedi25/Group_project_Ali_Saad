@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<link rel="stylesheet" href={{url_for('static', filename='style.css')}}/>
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}"/>
 	</head>
     <body>
-
+      
         <div class="summaries_container">
           <div class="summaries_content">
             {% for x in html_entries: %}
-            <h4>{{x.summary_title}}</h4>
-            <h4>{{x.summary}}</h4> 
-          {% endfor %}
+              <h4>{{x.summary_title}}</h4>
+              <h4>{{x.summary}}</h4> 
+            {% endfor %}
           </div>
         </div>
 
