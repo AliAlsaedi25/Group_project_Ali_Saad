@@ -129,12 +129,12 @@ def summary_maker():
         html_summary = summary
     )
 
-@login_required
+#@login_required
 @app.route('/view_summeries', methods = ['POST'])
 def view_summeries():
-    if not (current_user).is_authenticated:
-        flash("Login to See Saved Summaries")
-        redirect(url_for("summary_maker"))
+    #if not (current_user).is_authenticated:
+    #    flash("Login to See Saved Summaries")
+    #    redirect(url_for("summary_maker"))
     saved_summary = Summeries(summary = summary, summary_title = summary_title , username = current_user)
     db.session.add(saved_summary)  
     db.session.commit()   
