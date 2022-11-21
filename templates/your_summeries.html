@@ -4,14 +4,26 @@
 		<link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}"/>
 	</head>
     <body>
-      
+
+      <div class="summaries_header_container">
+        <div class="summaries_header_content">
+          <h1>Summaries Made by {{ username }} </h1>
+        </div>
+      </div>
+
         <div class="summaries_container">
           <div class="summaries_content">
             {% for x in html_entries: %}
-              <h4>{{x.summary_title}}</h4>
-              <h4>{{x.summary}}</h4> 
+              <h3>{{x.summary_title}}</h3>
+              <textarea id = "text" name = 'initial_text' rows ="20" cols="110">{{x.summary}}</textarea>
             {% endfor %}
           </div>
+        </div>
+
+        <div clas="footer">
+          <form methods="POST" action="/">
+            <input class="logout" type="submit" value="Logout"/>
+          </form>
         </div>
 
     </body>

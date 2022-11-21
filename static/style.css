@@ -24,7 +24,7 @@ For summary_page.html
 For your_summaries.html
 */
 .summaries_header_container {
-  height: 100px;
+  height: 50px;
   width: 1250px;
   position: relative;
   margin-bottom: 10px;
@@ -39,8 +39,8 @@ For your_summaries.html
 }
 
 .summaries_content {
-  height:300px;
-  width:500px;
+  height:325px;
+  width:850px;
   overflow: auto;
   margin: 0 auto;
   margin-bottom: 20px;

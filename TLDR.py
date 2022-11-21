@@ -117,11 +117,11 @@ def handle_signup_submission():
     db.session.commit()
     return redirect(url_for('login'))
 
-@app.route('/')
+@app.route('/main')
 def index():
     return render_template('main_page.html')
 
-@app.route('/logout')
+@app.route('/')
 def log_out():
     logout_user()
     return redirect(url_for('index'))
@@ -161,7 +161,8 @@ def your_summeries():
         entries.append(x)
     return render_template(
         'your_summeries.html', 
-        html_entries = entries  
+        html_entries = entries,  
+        username = current_username
         )
 
 app.run() 
