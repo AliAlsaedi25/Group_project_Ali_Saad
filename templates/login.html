@@ -4,7 +4,7 @@
 		<link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}"/>
 	</head>
     <body> 
-      
+      <h3>{{ get_flashed_messages()[0] }}</h3>
       <div class="login_container">
         <div class="login_content">
           <h1>Login</h1>

@@ -26,7 +26,7 @@ app.secret_key = os.getenv('secret_key')
 
 app.config[
     'SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 db.init_app(app)
@@ -44,6 +44,11 @@ class User(UserMixin, db.Model):
         return '<Comments %r>' % self.username
     def __str__(self):
         return f'{self.username}'
+    
+    def is_authenticated(self):
+        return super().is_authenticated
+    def is_anonymous(self):
+        return super().is_anonymous
 
 #this databse will keep track of all the comments and be accessed later to display comments across sessions
 class Summeries(db.Model):
@@ -54,16 +59,19 @@ class Summeries(db.Model):
     
     def __str__(self):
        return f'{self.username} {self.summary}'
-
+    def is_authenticated(self):
+        return super().is_authenticated
+    def is_anonymous(self):
+        return super().is_anonymous
 
 @lm.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+def load_user(username):
+    return User.query.get(int(username))
 
 @lm.unauthorized_handler
 def unauth():
     flash('INVALID URL OR LOG IN TO ACCESS THIS PAGE')
-    return redirect(url_for('index'))  
+    return redirect(url_for('login'))  
 
 with app.app_context():
     db.create_all()
@@ -81,9 +89,10 @@ def handle_login_submission():
         return redirect(url_for('login'))
 
     user = User.query.filter_by(username = username).first()
-    global current_user; current_user = username
+    #global current_user; current_user = username
+    global current_username; current_username = username
     if user:
-        login_user (user)
+        login_user(user)
         return redirect(url_for('index'))
     else:
         flash ('please try again')
@@ -112,6 +121,11 @@ def handle_signup_submission():
 def index():
     return render_template('main_page.html')
 
+@app.route('/logout')
+def log_out():
+    logout_user()
+    return redirect(url_for('index'))
+
 @app.route('/summerize_text', methods = ['POST'])
 def summerize_text():
     form_data = request.form
@@ -129,21 +143,19 @@ def summary_maker():
         html_summary = summary
     )
 
-#@login_required
 @app.route('/view_summeries', methods = ['POST'])
+@login_required
 def view_summeries():
-    #if not (current_user).is_authenticated:
-    #    flash("Login to See Saved Summaries")
-    #    redirect(url_for("summary_maker"))
-    saved_summary = Summeries(summary = summary, summary_title = summary_title , username = current_user)
+    saved_summary = Summeries(username = current_username, summary = summary, summary_title = summary_title)
     db.session.add(saved_summary)  
     db.session.commit()   
     return redirect(url_for('your_summeries'))
 
 
 @app.route('/your_summaries')
+@login_required
 def your_summeries():
-    database_data = Summeries.query.filter_by(username = current_user).all()
+    database_data = Summeries.query.filter_by(username = current_username).all()
     global entries; entries= []
     for x in database_data:
         entries.append(x)
