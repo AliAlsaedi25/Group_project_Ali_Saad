@@ -1,6 +1,6 @@
-# fly.toml file generated for toolong on 2022-11-20T12:36:53-06:00
+# fly.toml file generated for tldr on 2022-11-20T12:36:53-06:00
 
-app = "toolong"
+app = "tldr"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
