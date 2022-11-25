@@ -18,8 +18,6 @@ from flask_login import *
 import API
 load_dotenv(find_dotenv())
 
-entries = ' '
-
 app = Flask(__name__)
 
 app.secret_key = os.getenv('secret_key')
@@ -156,12 +154,9 @@ def view_summeries():
 @login_required
 def your_summeries():
     database_data = Summeries.query.filter_by(username = current_username).all()
-    global entries; entries= []
-    for x in database_data:
-        entries.append(x)
     return render_template(
         'your_summeries.html', 
-        html_entries = entries,  
+        html_entries = database_data,  
         username = current_username
         )
 
