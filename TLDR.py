@@ -115,7 +115,7 @@ def handle_signup_submission():
     db.session.commit()
     return redirect(url_for('login'))
 
-@app.route('/main')
+@app.route('/main') 
 def index():
     return render_template('main_page.html')
 
