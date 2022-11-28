@@ -48,7 +48,7 @@ class User(UserMixin, db.Model):
     def is_anonymous(self):
         return super().is_anonymous
 
-#this databse will keep track of all the comments and be accessed later to display comments across sessions
+#this databse will keep track of all the summaries each user made 
 class Summeries(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(80),  nullable = True)
